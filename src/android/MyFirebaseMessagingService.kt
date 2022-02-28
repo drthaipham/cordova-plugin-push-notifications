@@ -26,10 +26,8 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
   }
   val manifestIconKey     = "com.google.firebase.messaging.default_notification_icon"
   val manifestChannelKey  = "com.google.firebase.messaging.default_notification_channel_id"
-
   val manifestChannelNameKey  = "com.google.firebase.messaging.default_notification_channel_name"
   val manifestChannelDescriptionKey  = "com.google.firebase.messaging.default_notification_channel_description"
-
   val manifestColorKey    = "com.google.firebase.messaging.default_notification_color"
 
   private var defaultNotificationIcon = 0

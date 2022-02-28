@@ -33,7 +33,6 @@
         </config-file>
 
         <config-file target="AndroidManifest.xml" parent="/manifest/application">
-            <meta-data android:name="com.google.firebase.messaging.default_notification_channel_id" android:value="444"/>
             <service android:name="notifications.MyFirebaseMessagingService" android:exported="false">
                 <intent-filter>
                     <action android:name="com.google.firebase.MESSAGING_EVENT" />
