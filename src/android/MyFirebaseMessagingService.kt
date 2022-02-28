@@ -24,13 +24,19 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
   companion object {
     private const val TAG = "pushNotification"
   }
-  val mainfestIconKey     = "com.google.firebase.messaging.default_notification_icon"
-  val mainfestChannelKey  = "com.google.firebase.messaging.default_notification_channel_id"
-  val mainfestColorKey    = "com.google.firebase.messaging.default_notification_color"
+  val manifestIconKey     = "com.google.firebase.messaging.default_notification_icon"
+  val manifestChannelKey  = "com.google.firebase.messaging.default_notification_channel_id"
+
+  val manifestChannelNameKey  = "com.google.firebase.messaging.default_notification_channel_name"
+  val manifestChannelDescriptionKey  = "com.google.firebase.messaging.default_notification_channel_description"
+
+  val manifestColorKey    = "com.google.firebase.messaging.default_notification_color"
 
   private var defaultNotificationIcon = 0
   private var defaultNotificationColor = 0
   private var defaultNotificationChannelID = ""
+  private var defaultNotificationChannelName = ""
+  private var defaultNotificationChannelDescription = ""
   private var notificationManager: NotificationManager? = null
 
   var mainActivity: Class<*>? = null
@@ -50,19 +56,20 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
         PackageManager.GET_META_DATA
       )
 
-      defaultNotificationChannelID = ai.metaData.getString(mainfestChannelKey, "444")
+      defaultNotificationChannelID = ai.metaData.getString(manifestChannelKey, "444")
+      defaultNotificationChannelName = ai.metaData.getString(manifestChannelNameKey, "PUSH NOTIFICATIONS")
       val channel: NotificationChannel
       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         channel = NotificationChannel(
           defaultNotificationChannelID,
-          "PUSH NOTIFICATIONS",
+          defaultNotificationChannelName,
           NotificationManager.IMPORTANCE_HIGH
         )
         notificationManager!!.createNotificationChannel(channel)
       }
 
-      defaultNotificationIcon = ai.metaData.getInt(mainfestIconKey, ai.icon)
-      defaultNotificationColor= ai.metaData.getInt(mainfestColorKey, 0)
+      defaultNotificationIcon = ai.metaData.getInt(manifestIconKey, ai.icon)
+      defaultNotificationColor= ai.metaData.getInt(manifestColorKey, 0)
     } catch (e: PackageManager.NameNotFoundException) {
       Log.e(TAG, "Failed to load data from AndroidManifest.xml", e)
     }
