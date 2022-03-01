@@ -66,17 +66,15 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
           NotificationManager.IMPORTANCE_HIGH
         )
         channel.setDescription(defaultNotificationChannelDescription)
-        Log.d("NOTIFICATION: desc", defaultNotificationChannelDescription)
         // set sound for the channel
         var soundUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE+"://"+applicationContext.packageName+"/raw/"+defaultNotificationChannelID)
 
         if(soundUri != null){
             val audioAttributes = AudioAttributes.Builder()
                     .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-                    .setUsage(AudioAttributes.USAGE_ALARM)
+                    .setUsage(AudioAttributes.USAGE_NOTIFICATION)
                     .build();
             channel.setSound(soundUri,audioAttributes);
-            Log.d("NOTIFICATION: ", "SetSound")
         }        
         notificationManager!!.createNotificationChannel(channel)
       }
@@ -123,8 +121,8 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
     // Create notification
     var soundUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE+"://"+applicationContext.packageName+"/raw/"+channel_id)
 
-    Log.d("NOTIFICATIONS snd:", soundUri.toString())
-    Log.d("NOTIFICATIONS icn:", defaultNotificationIcon.toString())
+    // Log.d("NOTIFICATIONS snd:", soundUri.toString())
+    // Log.d("NOTIFICATIONS icn:", defaultNotificationIcon.toString())
     val notificationBuilder = NotificationCompat.Builder(this, channel_id)
       .setSmallIcon(defaultNotificationIcon)
       .setColor(defaultNotificationColor)
