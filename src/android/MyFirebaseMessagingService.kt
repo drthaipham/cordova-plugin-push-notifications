@@ -70,7 +70,7 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
         // set sound for the channel
         var soundUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE+"://"+applicationContext.packageName+"/raw/"+defaultNotificationChannelID)
         if(soundUri != null){
-            AudioAttributes audioAttributes = new AudioAttributes.Builder()
+            val audioAttributes = AudioAttributes.Builder()
                     .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
                     .setUsage(AudioAttributes.USAGE_ALARM)
                     .build();
