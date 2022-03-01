@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.media.RingtoneManager
+import android.media.AudioAttributes
 import android.net.Uri;
 import android.os.Build
 import android.util.Log
@@ -67,7 +68,7 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
             description = defaultNotificationChannelDescription
         }
         // set sound for the channel
-        var soundUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE+"://"+applicationContext.packageName+"/raw/"+channel_id)
+        var soundUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE+"://"+applicationContext.packageName+"/raw/"+defaultNotificationChannelID)
         if(soundUri != null){
             AudioAttributes audioAttributes = new AudioAttributes.Builder()
                     .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
