@@ -64,18 +64,19 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
           defaultNotificationChannelID,
           defaultNotificationChannelName,
           NotificationManager.IMPORTANCE_HIGH
-        ).apply {
-            description = defaultNotificationChannelDescription
-        }
+        )
+        channel.setDescription(defaultNotificationChannelDescription)
+        Log.d("NOTIFICATION: desc", default_notification_channel_description)
         // set sound for the channel
         var soundUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE+"://"+applicationContext.packageName+"/raw/"+defaultNotificationChannelID)
-        (contentResolver as ContentResolver).openInputStream(soundUri)
+
         if(soundUri != null){
             val audioAttributes = AudioAttributes.Builder()
                     .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
                     .setUsage(AudioAttributes.USAGE_ALARM)
                     .build();
             channel.setSound(soundUri,audioAttributes);
+            Log.d("NOTIFICATION: ", "SetSound")
         }        
         notificationManager!!.createNotificationChannel(channel)
       }
