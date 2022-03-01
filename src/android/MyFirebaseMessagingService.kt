@@ -66,7 +66,7 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
           NotificationManager.IMPORTANCE_HIGH
         )
         channel.setDescription(defaultNotificationChannelDescription)
-        Log.d("NOTIFICATION: desc", default_notification_channel_description)
+        Log.d("NOTIFICATION: desc", defaultNotificationChannelDescription)
         // set sound for the channel
         var soundUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE+"://"+applicationContext.packageName+"/raw/"+defaultNotificationChannelID)
 
