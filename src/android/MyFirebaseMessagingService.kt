@@ -67,7 +67,7 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
         )
         channel.setDescription(defaultNotificationChannelDescription)
         // set sound for the channel
-        var soundUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE+"://"+applicationContext.packageName+"/raw/"+defaultNotificationChannelID)
+        var soundUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE+"://"+applicationContext.packageName+"/raw/bell.wav")
 
         if(soundUri != null){
             val audioAttributes = AudioAttributes.Builder()
@@ -119,7 +119,7 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
     }
 
     // Create notification
-    var soundUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE+"://"+applicationContext.packageName+"/raw/"+channel_id)
+    var soundUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE+"://"+applicationContext.packageName+"/raw/bell.wav")
 
     // Log.d("NOTIFICATIONS snd:", soundUri.toString())
     // Log.d("NOTIFICATIONS icn:", defaultNotificationIcon.toString())
