@@ -56,13 +56,16 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
 
       defaultNotificationChannelID = ai.metaData.getString(manifestChannelKey, "444")
       defaultNotificationChannelName = ai.metaData.getString(manifestChannelNameKey, "PUSH NOTIFICATIONS")
+      defaultNotificationChannelDescription = ai.metaData.getString(defaultNotificationChannelDescription, "")
       val channel: NotificationChannel
       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         channel = NotificationChannel(
           defaultNotificationChannelID,
           defaultNotificationChannelName,
           NotificationManager.IMPORTANCE_HIGH
-        )
+        ).apply {
+            description = defaultNotificationChannelDescription
+        }
         notificationManager!!.createNotificationChannel(channel)
       }
 
@@ -99,7 +102,7 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
     if(channel_id==null){
       channel_id=defaultNotificationChannelID
     }
-
+    Log.d("NOTIFICATIONS channel_id:", channel_id)
     val resultPendingIntent: PendingIntent? = TaskStackBuilder.create(this).run {
       addNextIntentWithParentStack(resultIntent)
       getPendingIntent(101, PendingIntent.FLAG_CANCEL_CURRENT)
@@ -108,6 +111,8 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
     // Create notification
     var soundUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE+"://"+applicationContext.packageName+"/raw/"+channel_id)
 
+    Log.d("NOTIFICATIONS soundUri:", soundUri)
+    Log.d("NOTIFICATIONS defaultNotificationIcon:", defaultNotificationIcon)
     val notificationBuilder = NotificationCompat.Builder(this, channel_id)
       .setSmallIcon(defaultNotificationIcon)
       .setColor(defaultNotificationColor)
