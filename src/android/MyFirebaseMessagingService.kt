@@ -111,7 +111,7 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
     // Create notification
     var soundUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE+"://"+applicationContext.packageName+"/raw/"+channel_id)
 
-    Log.d("NOTIFICATIONS soundUri:", soundUri.toString(Charsets.UTF_8)
+    Log.d("NOTIFICATIONS soundUri:", soundUri.toString(Charsets.UTF_8))
     Log.d("NOTIFICATIONS defaultNotificationIcon:", defaultNotificationIcon.toString(Charsets.UTF_8))
     val notificationBuilder = NotificationCompat.Builder(this, channel_id)
       .setSmallIcon(defaultNotificationIcon)
