@@ -29,6 +29,7 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
   val manifestChannelKey  = "com.google.firebase.messaging.default_notification_channel_id"
   val manifestChannelNameKey  = "com.google.firebase.messaging.default_notification_channel_name"
   val manifestChannelDescriptionKey  = "com.google.firebase.messaging.default_notification_channel_description"
+  val manifestSoundKey     = "com.google.firebase.messaging.default_notification_sound"
   val manifestColorKey    = "com.google.firebase.messaging.default_notification_color"
 
   private var defaultNotificationIcon = 0
@@ -36,6 +37,7 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
   private var defaultNotificationChannelID = ""
   private var defaultNotificationChannelName = ""
   private var defaultNotificationChannelDescription = ""
+  private var defaultNotificationSound = ""
   private var notificationManager: NotificationManager? = null
 
   var mainActivity: Class<*>? = null
@@ -56,8 +58,10 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
       )
 
       defaultNotificationChannelID = ai.metaData.getString(manifestChannelKey, "444")
+      defaultNotificationSound = ai.metaData.getString(manifestSoundKey, "")
       defaultNotificationChannelName = ai.metaData.getString(manifestChannelNameKey, "PUSH NOTIFICATIONS")
-      defaultNotificationChannelDescription = ai.metaData.getString(defaultNotificationChannelDescription, "")
+      defaultNotificationChannelDescription = ai.metaData.getString(manifestChannelDescriptionKey, "")
+
       val channel: NotificationChannel
       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         channel = NotificationChannel(
@@ -67,7 +71,7 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
         )
         channel.setDescription(defaultNotificationChannelDescription)
         // set sound for the channel
-        var soundUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE+"://"+applicationContext.packageName+"/raw/"+defaultNotificationChannelID)
+        var soundUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE+"://"+applicationContext.packageName+"/raw/"+defaultNotificationSound)
 
         if(soundUri != null){
             val audioAttributes = AudioAttributes.Builder()
@@ -91,6 +95,17 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
     super.onMessageReceived(p0)
 
     if (p0 !== null) {
+      // val data      =p0.data
+      // val title     =data["title"]
+      // val body      =data["body"]
+      // val payload   =data["payload"]
+      // var channel_id=data["channel_id"]
+      // Log.d("NOTIFY Received:" p0.toString())
+      // Log.d("NOTIFY", channel_id)
+      // Log.d("NOTIFY", title)
+      // Log.d("NOTIFY", body)
+      // Log.d("NOTIFY", payload.toString())
+      // Log.d("NOTIFY data", p0.data.toString())
       sendNotification(p0)
     }
   }
@@ -112,14 +127,13 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
     if(channel_id==null){
       channel_id=defaultNotificationChannelID
     }
-    Log.d("NOTIFICATIONS channel_id:", channel_id)
     val resultPendingIntent: PendingIntent? = TaskStackBuilder.create(this).run {
       addNextIntentWithParentStack(resultIntent)
       getPendingIntent(101, PendingIntent.FLAG_CANCEL_CURRENT)
     }
 
     // Create notification
-    var soundUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE+"://"+applicationContext.packageName+"/raw/"+channel_id)
+    var soundUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE+"://"+applicationContext.packageName+"/raw/"+defaultNotificationSound)
 
     // Log.d("NOTIFICATIONS snd:", soundUri.toString())
     // Log.d("NOTIFICATIONS icn:", defaultNotificationIcon.toString())
